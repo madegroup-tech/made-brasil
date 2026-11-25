@@ -1,0 +1,7 @@
+# Fora do versionamento e do deploy
+BACKLOG.md
+.claude/
+
+# Sistema e editor
+.DS_Store
+*.log
