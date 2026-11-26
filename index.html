@@ -19,6 +19,15 @@
 <meta name="theme-color" content="#1e1e1e">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script>
+/* Consent Mode: tudo negado até o visitante aceitar (ver consent.js). Precisa vir antes do GTM. */
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
+gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
+</script>
+<link rel="stylesheet" href="vendor/cookieconsent/cookieconsent.css">
+<link rel="stylesheet" href="consent.css">
+<script defer src="vendor/cookieconsent/cookieconsent.umd.js"></script>
+<script defer src="consent.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -679,7 +688,10 @@
   @media(max-width:640px){.sheet-gal.mosaic{grid-template-columns:1fr}}
   footer{border-top:1px solid var(--line);padding:40px 0;font-size:13px;color:var(--gray)}
   footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px 32px;flex-wrap:wrap}
-  footer .net{display:flex;gap:20px}
+  footer .net{display:flex;gap:20px;flex-wrap:wrap}
+  footer mark{background:#fff0a6;color:var(--ink);padding:0 4px;border-radius:3px} /* placeholders B6: remover quando houver CNPJ */
+  footer .f-cookies{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline}
+  footer .net a:hover,footer .f-cookies:hover{color:var(--accent)}
 
   /* REVEAL */
   .rv{opacity:0;transform:translateY(32px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
@@ -1025,7 +1037,7 @@
         </select>
         <textarea name="msg" placeholder="Conte o desafio" aria-label="Mensagem"></textarea>
         <button class="btn primary" type="submit">Quero conversar</button>
-        <p class="lgpd">Usamos seus dados só para responder a este contato. Saiba mais na <a href="/privacidade.html">política de privacidade</a>.</p>
+        <p class="lgpd">Usamos seus dados só para responder a este contato (o e-mail é enviado pelo Resend). Saiba mais na <a href="/privacidade.html">política de privacidade</a>.</p>
         <div class="sent ok" id="sentOk" role="status"><b>Recebido.</b> Sua mensagem foi enviada. A Made volta a falar com você em breve.</div>
         <div class="sent err" id="sentErr" role="alert"></div>
         <div class="sent" id="sent">
@@ -1073,8 +1085,8 @@
 
 <footer>
   <div class="wrap">
-    <span class="f-group">© 2026 Made Brasil · Parte do Grupo Made</span>
-    <div class="net"><a href="https://www.instagram.com/agenciamade_brasil/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/company/madegroup-brasil/" target="_blank" rel="noopener">LinkedIn</a></div>
+    <span class="f-group">© 2026 Made Brasil · Parte do Grupo Made<span class="f-legal"> · <mark>[RAZÃO SOCIAL]</mark> · CNPJ <mark>[CNPJ]</mark></span></span>
+    <div class="net"><a href="/privacidade.html">Política de privacidade</a><button type="button" class="f-cookies" data-cc="show-preferencesModal">Cookies</button><a href="https://www.instagram.com/agenciamade_brasil/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/company/madegroup-brasil/" target="_blank" rel="noopener">LinkedIn</a></div>
   </div>
 </footer>
 

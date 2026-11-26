@@ -1,0 +1,31 @@
+/* Tema do banner de cookies, nas cores da Made. */
+#cc-main{
+  --cc-font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  --cc-bg:#f6f1ef;
+  --cc-primary-color:#1e1e1e;
+  --cc-secondary-color:#5f5856;
+  --cc-btn-primary-bg:#1e1e1e;
+  --cc-btn-primary-color:#fff;
+  --cc-btn-primary-border-color:#1e1e1e;
+  --cc-btn-primary-hover-bg:#693fd9;
+  --cc-btn-primary-hover-color:#fff;
+  --cc-btn-primary-hover-border-color:#693fd9;
+  /* "Recusar" com o mesmo peso visual de "Aceitar" */
+  --cc-btn-secondary-bg:#1e1e1e;
+  --cc-btn-secondary-color:#fff;
+  --cc-btn-secondary-border-color:#1e1e1e;
+  --cc-btn-secondary-hover-bg:#693fd9;
+  --cc-btn-secondary-hover-color:#fff;
+  --cc-btn-secondary-hover-border-color:#693fd9;
+  --cc-separator-border-color:#ddd2cf;
+  --cc-toggle-on-bg:#693fd9;
+  --cc-toggle-off-bg:#8a8280;
+  --cc-cookie-category-block-bg:#fff;
+  --cc-cookie-category-block-border:#ddd2cf;
+  --cc-link-color:#693fd9;
+  --cc-modal-border-radius:16px;
+  --cc-btn-border-radius:980px;
+  --cc-z-index:400;
+}
+#cc-main .cm--box{max-width:380px}
+#cc-main a{text-decoration:underline}
