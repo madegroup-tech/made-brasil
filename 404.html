@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página não encontrada — Made Brasil</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1e1e1e">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root{--ink:#1e1e1e;--paper:#f6f1ef;--violet:#693fd9;--mint:#88d1ad;--coral:#d85b4f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;background:var(--ink);color:#fff;-webkit-font-smoothing:antialiased;line-height:1.5;min-height:100vh;min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden}
+  .glow{position:absolute;width:70vw;height:70vw;right:-20vw;top:-20vw;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(105,63,217,.75),rgba(105,63,217,0) 60%),radial-gradient(circle at 70% 75%,rgba(216,91,79,.45),rgba(216,91,79,0) 55%);filter:blur(40px);pointer-events:none}
+  main{position:relative;width:100%;max-width:1180px;margin:0 auto;padding:96px 24px}
+  .kicker{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#a1a1a6;border:1px solid #333;border-radius:980px;padding:8px 16px;margin-bottom:32px}
+  h1{font-size:clamp(96px,22vw,260px);font-weight:800;letter-spacing:-.055em;line-height:.9;color:var(--mint)}
+  h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.035em;line-height:1.1;font-weight:700;margin-top:24px}
+  p{font-size:clamp(16px,2vw,20px);color:#a1a1a6;max-width:520px;margin-top:16px}
+  .cta{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:15px 28px;border-radius:980px;font-size:16px;font-weight:600;color:inherit;text-decoration:none;transition:transform .2s}
+  .btn:hover{transform:scale(1.03)}
+  .btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+  .btn.primary{background:var(--mint);color:var(--ink)}
+  .btn.ghost{border:1px solid rgba(255,255,255,.35)}
+  @media(prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<main>
+  <span class="kicker">Made Brasil</span>
+  <h1>404</h1>
+  <h2>Esta página não existe (ou nunca existiu).</h2>
+  <p>O endereço pode estar errado ou o conteúdo mudou de lugar. Volte para a home ou fale direto com a gente.</p>
+  <div class="cta">
+    <a href="/" class="btn primary">Voltar para a home</a>
+    <a href="/#contato" class="btn ghost">Fale com a Made</a>
+  </div>
+</main>
+</body>
+</html>
