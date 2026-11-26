@@ -601,6 +601,9 @@
   .aw-n.aw-word{font-size:clamp(34px,3.4vw,46px);letter-spacing:-.04em}
   .aw-row span{font-size:15px;line-height:1.4;color:#4a4442}
   @media(max-width:560px){.aw-row{grid-template-columns:96px 1fr;gap:14px}.aw-n{font-size:40px}.aw-n.aw-word{font-size:28px}.aw-row span{font-size:14px}}
+  .lgpd{font-size:13px;color:var(--gray);line-height:1.5}
+  .lgpd a{text-decoration:underline}
+  .sent.err{background:#fbe6e3;color:#8c2f26;border-left:3px solid var(--coral)}
   .sent b{font-weight:600}
   .sent-act{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
   .sent-act a,.sent-act button{font:inherit;font-size:14px;font-weight:600;background:#fff;color:var(--ink);border:1px solid #c7e5d6;border-radius:980px;padding:8px 16px;cursor:pointer}
@@ -1006,12 +1009,12 @@
           <button type="button" class="c-copy" id="copyMail">Copiar e-mail</button>
         </div>
       </div>
-      <form id="form" class="rv" name="contato" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contato">
-        <p class="hp" aria-hidden="true"><label>Não preencha <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+      <form id="form" class="rv" name="contato" method="POST" action="/api/contato">
+        <p class="hp" aria-hidden="true"><label>Não preencha <input name="website" tabindex="-1" autocomplete="off"></label></p>
         <input required name="nome" placeholder="Nome" aria-label="Nome">
         <input required name="empresa" placeholder="Empresa" aria-label="Empresa">
         <input required type="email" name="email" placeholder="E-mail" aria-label="E-mail">
+        <input type="tel" name="whatsapp" placeholder="WhatsApp ou telefone (opcional)" aria-label="WhatsApp ou telefone (opcional)" autocomplete="tel">
         <select name="modo" id="modo" aria-label="Formato">
           <option value="" disabled selected>Como quer trabalhar com a Made?</option>
           <option>Conta</option><option>Projeto</option><option>Sprint criativo</option><option>Concorrência</option><option>Outro</option>
@@ -1022,7 +1025,9 @@
         </select>
         <textarea name="msg" placeholder="Conte o desafio" aria-label="Mensagem"></textarea>
         <button class="btn primary" type="submit">Quero conversar</button>
-        <div class="sent ok" id="sentOk"><b>Recebido.</b> Sua mensagem chegou para o Alvinho e para o time de novos negócios. A Made volta a falar com você em breve.</div>
+        <p class="lgpd">Usamos seus dados só para responder a este contato. Saiba mais na <a href="/privacidade.html">política de privacidade</a>.</p>
+        <div class="sent ok" id="sentOk" role="status"><b>Recebido.</b> Sua mensagem foi enviada. A Made volta a falar com você em breve.</div>
+        <div class="sent err" id="sentErr" role="alert"></div>
         <div class="sent" id="sent">
           <b>Quase lá.</b> Abrimos o seu e-mail com a mensagem pronta para <b>arodrigues@madegroup.com.br</b> e <b>oi.dani@madegroup.com.br</b>. É só enviar.
           <div class="sent-act"><a id="sentMail" href="#">Abrir e-mail de novo</a><button type="button" id="sentCopy">Copiar mensagem</button></div>
@@ -1312,23 +1317,29 @@ function onScroll(){
 }
 addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});onScroll();
 
-/* formulário: envia direto (Netlify Forms). Se o envio não estiver disponível, abre o e-mail pronto. */
-(function(){const f=document.getElementById('form'),sent=document.getElementById('sent'),ok=document.getElementById('sentOk'),btn=f.querySelector('button[type=submit]');
+/* formulário: envia para /api/contato (Worker + Resend). Se o envio falhar por erro do servidor ou de rede, abre o e-mail pronto. */
+(function(){const f=document.getElementById('form'),sent=document.getElementById('sent'),ok=document.getElementById('sentOk'),err=document.getElementById('sentErr'),btn=f.querySelector('button[type=submit]');
   const TO='arodrigues@madegroup.com.br,oi.dani@madegroup.com.br';let body='',url='';
+  const LABEL={nome:'o nome',empresa:'a empresa',email:'um e-mail válido',whatsapp:'o telefone',modo:'o formato',segmento:'o segmento',msg:'a mensagem'};
   function mail(d){const subj=`Contato pelo site: ${d.get('nome')||''} · ${d.get('empresa')||''}`;
     body=[`Nome: ${d.get('nome')||''}`,`Empresa: ${d.get('empresa')||''}`,`E-mail: ${d.get('email')||''}`,`WhatsApp: ${d.get('whatsapp')||'—'}`,`Como quer trabalhar com a Made: ${d.get('modo')||'—'}`,`Segmento: ${d.get('segmento')||'—'}`,'',`Desafio:`,`${d.get('msg')||''}`].join('\n');
     url=`mailto:${TO}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
     document.getElementById('sentMail').href=url;sent.style.display='block';
-    try{const a=document.createElement('a');a.href=url;a.target='_top';document.body.appendChild(a);a.click();a.remove()}catch(err){}}
-  f.onsubmit=async e=>{e.preventDefault();const d=new FormData(f);if(d.get('bot-field'))return;
+    try{const a=document.createElement('a');a.href=url;a.target='_top';document.body.appendChild(a);a.click();a.remove()}catch(e){}}
+  f.onsubmit=async e=>{e.preventDefault();const d=new FormData(f);if(d.get('website'))return;
     btn.disabled=true;const t=btn.textContent;btn.textContent='Enviando…';
+    sent.style.display=err.style.display=ok.style.display='none';
     track('lead_form_submit',{formato:d.get('modo')||'',segmento:d.get('segmento')||''});
-    let done=false;
+    let result='fallback';
     if(/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.host)){
-      try{const r=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(d).toString()});done=r.ok}catch(err){}}
+      try{const r=await fetch('/api/contato',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(d))});
+        if(r.ok)result='ok';
+        else if(r.status===400){const j=await r.json().catch(()=>({}));result={fields:j.fields||[]}}
+      }catch(e){}}
     btn.disabled=false;btn.textContent=t;
-    if(done){ok.style.display='block';sent.style.display='none';f.querySelectorAll('input:not([type=hidden]),textarea,select').forEach(x=>{if(x.name!=='bot-field')x.value=''});track('lead_form_ok')}
-    else mail(d);
+    if(result==='ok'){ok.style.display='block';f.querySelectorAll('input:not([type=hidden]),textarea,select').forEach(x=>{if(x.name!=='website')x.value=''});track('lead_form_ok')}
+    else if(result==='fallback')mail(d);
+    else{const w=result.fields.map(k=>LABEL[k]||k).join(', ');err.textContent=w?`Confira ${w} e tente de novo.`:'Confira os campos e tente de novo.';err.style.display='block'}
   };
   document.getElementById('sentCopy').onclick=async function(){try{await navigator.clipboard.writeText('Para: arodrigues@madegroup.com.br, oi.dani@madegroup.com.br\n\n'+body);this.textContent='Mensagem copiada ✓'}catch(e){this.textContent='Não foi possível copiar'}};
 })();

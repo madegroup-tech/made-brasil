@@ -6,3 +6,8 @@ wrangler.jsonc
 BACKLOG.md
 node_modules
 .wrangler
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+src

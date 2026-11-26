@@ -6,3 +6,8 @@ BACKLOG.md
 .DS_Store
 *.log
 .wrangler
+
+.dev.vars
+.dev.vars.*
+.env
+.env.*
