@@ -29,3 +29,14 @@
 }
 #cc-main .cm--box{max-width:380px}
 #cc-main a{text-decoration:underline}
+
+/* esconde o WhatsApp enquanto o banner está aberto (evita sobreposição) */
+html.show--consent .wa{opacity:0;pointer-events:none}
+
+/* alvos de toque e versão compacta no mobile */
+#cc-main .cm__btn{min-height:44px}
+@media(max-width:640px){
+  #cc-main .cm--box{max-width:none}
+  #cc-main .cm{margin:0 12px 12px;padding:14px}
+  #cc-main .cm__desc{font-size:.85rem;line-height:1.4}
+}
