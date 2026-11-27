@@ -1207,7 +1207,7 @@ CASES.forEach((c,i)=>{
 /* medição: eventos para o Google Tag Manager / GA4 */
 window.dataLayer=window.dataLayer||[];
 function track(ev,p){try{dataLayer.push(Object.assign({event:ev},p||{}))}catch(e){}}
-const GTM_ID=""; /* ex.: "GTM-XXXXXXX" — preencha para ativar */
+const GTM_ID="GTM-WL6RZPRM";
 if(GTM_ID){(function(w,d,s,l,i){w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});const f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f)})(window,document,'script','dataLayer',GTM_ID)}
 document.addEventListener('click',e=>{const a=e.target.closest('a,button');if(!a)return;
   if(a.id==='wa')track('whatsapp_click',{local:'botao_flutuante'});
